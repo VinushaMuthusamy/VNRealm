@@ -10,3 +10,5 @@ Steps to setting up this Django project
 
 Then, run your project! You'll need to create an app and configure your URLs. See the video from the lecture!
 
+I was here
+
