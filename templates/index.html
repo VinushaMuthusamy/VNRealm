@@ -1,10 +1,16 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<h1>Hello World!</h1>
+<h1>My cool website</h1>
+<h2>List of records in DB</h2>
+<ul>
+   {% for record in records %}
+      <li>{{ record }}</li>
+   {% endfor %}
+</ul>
 </body>
 </html>
