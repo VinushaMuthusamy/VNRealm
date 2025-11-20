@@ -1,7 +1,9 @@
 from django.db import models
 
-# Create your models here.
+#Create your models here.
 
+
+from django.conf import settings
 from django.db import models
 class VisualNovel(models.Model):
     title = models.CharField(max_length=300, default="titlegoeshere")

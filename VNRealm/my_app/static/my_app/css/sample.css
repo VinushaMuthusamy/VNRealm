@@ -1,7 +1,6 @@
 
 body {
-  background-image: url(https://cdn.pixabay.com/photo/2022/07/28/06/25/road-7349232_1280.jpg);
-  transition: background-image 1s ease-in-out;
+  background-color: grey;
   background-size: cover;
   background-position: center;
   margin: 0;
