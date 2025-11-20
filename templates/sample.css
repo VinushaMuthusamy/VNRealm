@@ -1,0 +1,18 @@
+
+body {
+  background-image: url(https://cdn.pixabay.com/photo/2022/07/28/06/25/road-7349232_1280.jpg);
+  transition: background-image 1s ease-in-out;
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* This ensures positioning is relative to body */
+}
+
+
+
+
