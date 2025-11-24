@@ -4,17 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-        <link rel="stylesheet" href="{% static 'sample.css' %}">
+        <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
 <h1>My cool website</h1>
 <h2>List of records in VNRealm</h2>
-<ul>
    {% for vn in records %}
-       <li>{{ vn.title }} by {{ vn.author }} ({{ vn.release_year }})</li>
+          <table>
+      <thead>
+      <tr>
+      <th>Detail</th>
+          <th>Item</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>TITLE:</td>
+      <td>{{ vn.title }}</td>
+      </tr>
+      <tr>
+        <td>RELEASE YEAR:</td>
+        <td>({{ vn.release_year }})</td>
+        </tr>
+       <tr>
+        <td>GENRE:</td>
+        <td>{{ vn.genre }}</td>
+        </tr>
+       <tr>
+        <td>AVAILABLE_ON:</td>
+        <td>{{ vn.available_on }}</td>
+        </tr>
+      </tbody>
+      </table>
    {% empty %}
      <li>No visual novels found.</li>
      {% endfor %}
-</ul>
 </body>
 </html>
