@@ -7,26 +7,51 @@ from django.db import models
 
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
+class Genre(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    def __str__(self):
+        return self.name
+
+class Author(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    def __str__(self):
+        return self.name
+
+class AvailableOn(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    def __str__(self):
+        return self.name
+
 class VisualNovel(models.Model):
     title = models.CharField(max_length=300, default="titlegoeshere")
-    author = models.CharField(max_length=100, default="Noone")
+    author = models.ManyToManyField(Author, blank=True)
     release_year = models.IntegerField(default=0000)
-    genre = models.CharField(max_length=100, default="Unknown")
+    genre = models.ManyToManyField(Genre, blank=True)
     is_adult = models.BooleanField(default=False)  # 18+ yes/no
-    available_on = models.CharField(max_length=100, default="unavailable")
+    available_on = models.ManyToManyField(AvailableOn, blank=True)
+    cover_image = models.ImageField(upload_to='vn_covers/', blank=True, null=True)
     def __str__(self):
-        return (f"TITLE: {self.title} "
-                f"AUTHOR: {self.author} "
-                f"RELEASE YEAR: ({self.release_year})"
-                f"GENRE: {self.genre} "
-                f"Available On: {self.available_on} ")
+       genres = ", ".join([g.name for g in self.genre.all()])
+       authors = ", ".join([a.name for a in self.author.all()])
+       return (f"TITLE: {self.title} "
+               f"AUTHOR: {authors} "
+               f"RELEASE YEAR: ({self.release_year}) "
+               f"GENRE: {genres} "
+               f"Available On: {self.available_on}")
+
 class UserProfile(models.Model):
+   # user = models.OneToOneField(User, on_delete=models.CASCADE)
     Name = models.CharField(max_length=100, default="HEWHOSHALLNOTBENAMED")
     User_Interests = models.CharField(max_length=100, default="Nothing Really")
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True) #
     def __str__(self):
-        return (f"{self.Name}")
+        return f"{self.Name}"
 
-
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    vn = models.ForeignKey(VisualNovel, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
