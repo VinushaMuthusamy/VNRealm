@@ -16,3 +16,6 @@ def index(request):
     # Replace ModelName in the above line
     # with the name of your model in models.py
     return render(request, 'index.html', {'records': records})
+
+def vn_detail(request, ts):
+    return render(request, 'VN_detailpage.html')

@@ -43,7 +43,7 @@ class VisualNovel(models.Model):
 class UserProfile(models.Model):
    # user = models.OneToOneField(User, on_delete=models.CASCADE)
     Name = models.CharField(max_length=100, default="HEWHOSHALLNOTBENAMED")
-    User_Interests = models.CharField(max_length=100, default="Nothing Really")
+    user_Interests = models.CharField(max_length=100, default="Nothing Really")
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True) #
     def __str__(self):
         return f"{self.Name}"
