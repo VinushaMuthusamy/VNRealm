@@ -23,10 +23,7 @@ from django.urls import path, include #"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('VNRealm.urls')),
-    path('vn/<int:ts>/', views.vn_detail, name='VN_detailpage')
 ]
-
-
 
 
 if settings.DEBUG:

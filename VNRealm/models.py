@@ -8,6 +8,7 @@ from django.db import models
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+
 class Genre(models.Model):
     name = models.CharField(max_length=100, unique=True)
     def __str__(self):
@@ -50,8 +51,8 @@ class UserProfile(models.Model):
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    vn = models.ForeignKey(VisualNovel, on_delete=models.CASCADE)
+    vn = models.ForeignKey(VisualNovel, on_delete=models.CASCADE, related_name='reviews')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-
+def __str__(self): return f"Review by {self.user} on {self.vn}"

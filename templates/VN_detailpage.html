@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+<script src="{% static 'VNRealm/JS/sample.js' %}"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <h1>we here</h1>
 </head>
 <body>
-
+    <h1>we here</h1>
+<h2>{{ vn.title }}</h2>
+<p>Author: {% for author in vn.author.all %}
+                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</p>
+<p>Release Year: {{ vn.release_year }}</p>
+    <p>GENRE: {% for genre in vn.genre.all %}
+                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</p>
+    <p>AVAILABLE_ON: {% for available_on in vn.available_on.all %}
+                    {{ available_on.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</p>
+        {% if vn.cover_image %}
+       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" width="100">
+       {% else %}
+ <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" width="100">
+           {% endif %}
+<h3>Reviews:</h3>
+ <form method="POST" id="reviewform" action="{% url 'VN_detailpage' dt=vn.id %}">
+    {% csrf_token %}
+            <textarea name="content" rows="10" cols="35"
+                      placeholder="Write your review here..."></textarea>
+        <br>
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>
