@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+      <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
     <h1>we here</h1>
@@ -25,12 +26,21 @@
  <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" width="100">
            {% endif %}
 <h3>Reviews:</h3>
- <form method="POST" id="reviewform" action="{% url 'VN_detailpage' dt=vn.id %}">
+ <form id="reviewForm" method="POST" action="{% url 'VN_detailpage' dt=vn.id %}"
+       data-auth="{% if user.is_authenticated %}True{% else %}False{% endif %}">
     {% csrf_token %}
-            <textarea name="content" rows="10" cols="35"
+            <textarea name="content" id="reviewText"  rows="10" cols="35"
                       placeholder="Write your review here..."></textarea>
         <br>
-    <button type="submit">Submit</button>
+    <button type ="submit">Submit</button>
 </form>
+<div id="authPopup" class="popup">
+  <div class="popup-content">
+    <h3>You must log in to post a review!</h3>
+         <button type = "button" id="loginBtn" class="btn-login"
+                 data-login-url="{% url 'login' %}?next={{ request.path }}" >Login</button>
+        <button id="closePopup">Close</button>
+    </div>
+  </div>
 </body>
 </html>
