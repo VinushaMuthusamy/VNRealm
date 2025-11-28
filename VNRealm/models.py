@@ -66,7 +66,7 @@ class PlayedList(models.Model):
     rating = models.PositiveSmallIntegerField(null=True, blank=True)  # 1-10 scale
 
     class Meta:
-        # each user can have only one entry per VN
+        #each user can have only one entry per VN
         unique_together = ('user', 'vn')
 
     def __str__(self):
