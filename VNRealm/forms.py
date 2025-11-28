@@ -8,13 +8,18 @@ class PlayedListForm(forms.ModelForm):
         queryset=VisualNovel.objects.all(),
         empty_label="Select a Visual Novel"
     )
+
+    # metadata definition
     class Meta:
         model = PlayedList
-        fields = ['vn']  # Let the user pick which VN to mark as played
+        #user picks which VN to mark as played
+        fields = ['vn']
 
 
 
 class UserProfileForm(forms.ModelForm):
+    #metadata definition
     class Meta:
         model = UserProfile
-        fields = ['profile_pic']  # include profile_pic
+        #including profile_pic
+        fields = ['profile_pic']

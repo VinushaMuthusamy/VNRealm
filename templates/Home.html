@@ -60,7 +60,6 @@
     <li>You haven't added any VNs yet.</li>
 {% endfor %}
 </ul>
-
 {% if request.session.last_vn_id %}
     <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
         Resume Last Visual Novel
