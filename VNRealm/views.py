@@ -14,6 +14,8 @@ from django.http import Http404
 
 def index(request):
     records = VisualNovel.objects.all()
+    if not (request.user.is_authenticated and request.user.UserProfile.is_adultPlus):
+        records = records.filter(is_adult=False)
     # Replace ModelName in the above line
     # with the name of your model in models.py
     return render(request, 'index.html', {'records': records})
@@ -72,9 +74,6 @@ def login_view(request):
                 return render(request, 'login.html', {'error': 'Username already exists.'})
 
     return render(request, 'login.html')
-
-
-
 
 @login_required
 def home(request):
