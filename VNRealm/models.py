@@ -45,7 +45,6 @@ class VisualNovel(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     Name = models.CharField(max_length=100, default="HEWHOSHALLNOTBENAMED")
-    user_Interests = models.CharField(max_length=100, default="Nothing Really")
     is_adultPlus = models.BooleanField(default=False)
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True) #
     def __str__(self):
