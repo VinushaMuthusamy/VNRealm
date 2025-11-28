@@ -7,4 +7,5 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('Home/', views.home, name='Home'),  # requires login
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('review/delete/<int:review_id>/', views.delete_review, name='delete_review')
 ]

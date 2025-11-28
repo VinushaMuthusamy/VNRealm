@@ -8,7 +8,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login#, logout
 from django.shortcuts import render, redirect
-from .models import VisualNovel, Review, UserProfile
+
+from .forms import PlayedListForm, UserProfileForm
+from .models import VisualNovel, Review, UserProfile, PlayedList
 from django.http import Http404
 # Replace ModelName in the above line
 # with the name of your model in models.py
@@ -46,6 +48,7 @@ def vn_detail(request, dt):
         return redirect('VN_detailpage', dt=dt)
 
     reviews = vn.reviews.all()
+
     return render(request, 'VN_detailpage.html', {'vn': vn, 'reviews': reviews})
 
 def login_view(request):
@@ -97,4 +100,51 @@ def home(request):
         is_adult = request.POST.get('is_adultPlus') == 'on'
         profile.is_adultPlus = is_adult
         profile.save()
-    return render(request, 'Home.html', {'profile': profile})
+
+    if request.method == 'POST':
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+    else:
+        profile_form = UserProfileForm(instance=profile)
+
+    if request.method == 'POST':
+        form = PlayedListForm(request.POST)
+        if form.is_valid():
+            played_item = form.save(commit=False)
+            played_item.user = user  # tie it to current user
+            played_item.save()
+    else:
+        form = PlayedListForm()
+
+    # Update rating in home view
+    if request.method == 'POST':
+        if 'played_id' in request.POST:
+            played_id = request.POST.get('played_id')
+            rating = request.POST.get('rating')
+            played_item = PlayedList.objects.get(id=played_id, user=user)
+            if rating:
+                played_item.rating = int(rating)
+                played_item.save()
+
+    played_vns = PlayedList.objects.filter(user=user).select_related('vn')
+
+    if request.method == 'POST':
+        if 'delete_played_id' in request.POST:
+            played_id = request.POST.get('delete_played_id')
+            played_item = PlayedList.objects.get(id=played_id, user=user)
+            played_item.delete()
+
+    return render(request, 'Home.html',
+                  {'profile': profile, 'form': form,
+                   'played_vns': played_vns, 'profile_form': profile_form})
+
+@login_required
+def delete_review(request, review_id):
+    try:
+        review = Review.objects.get(id=review_id, user=request.user)  # only allow owner
+        review.delete()
+    except Review.DoesNotExist:
+        pass
+    return redirect('VN_detailpage', dt=review.vn.id)
+

@@ -46,10 +46,14 @@
             <p>{{ review.content }}</p>
             <small>Posted on: {{ review.created_at }}</small>
         </div>
+        {% if user == review.user %}
+        <a href="{% url 'delete_review' review.id %}">Delete</a>
+    {% endif %}
     {% endfor %}
 {% else %}
     <p>No reviews yet. Be the first one!</p>
 {% endif %}
+
 <div id="authPopup" class="popup">
   <div class="popup-content">
     <h3>You must log in to post a review!</h3>

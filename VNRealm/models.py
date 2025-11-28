@@ -59,3 +59,16 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user} on {self.vn}"
+
+
+class PlayedList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vn = models.ForeignKey(VisualNovel, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(null=True, blank=True)  # 1-10 scale
+
+    class Meta:
+        # each user can have only one entry per VN
+        unique_together = ('user', 'vn')
+
+    def __str__(self):
+        return f"{self.user.username} played {self.vn.title}"
