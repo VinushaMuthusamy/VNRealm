@@ -43,7 +43,7 @@ class VisualNovel(models.Model):
                f"Available On: {available_ons}")
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     Name = models.CharField(max_length=100, default="HEWHOSHALLNOTBENAMED")
     user_Interests = models.CharField(max_length=100, default="Nothing Really")
     is_adultPlus = models.BooleanField(default=False)

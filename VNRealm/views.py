@@ -2,22 +2,30 @@
 # Create your views here.
 #from django.shortcuts import render, HttpResponse
 from django.contrib.auth.models import User
+
 #from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login#, logout
 from django.shortcuts import render, redirect
-from .models import VisualNovel, Review
+from .models import VisualNovel, Review, UserProfile
 from django.http import Http404
 # Replace ModelName in the above line
 # with the name of your model in models.py
 
 def index(request):
     records = VisualNovel.objects.all()
-    if not (request.user.is_authenticated and request.user.UserProfile.is_adultPlus):
+    if request.user.is_authenticated:
+        #check if profile exist
+        if UserProfile.objects.filter(user=request.user).exists():
+            profile = UserProfile.objects.get(user=request.user)
+        else:
+            profile = UserProfile.objects.create(user=request.user)
+        if not profile.is_adultPlus:
+            records = records.filter(is_adult=False)
+    else:
+        # Not logged in → hide adult content
         records = records.filter(is_adult=False)
-    # Replace ModelName in the above line
-    # with the name of your model in models.py
     return render(request, 'index.html', {'records': records})
 
 
@@ -77,4 +85,16 @@ def login_view(request):
 
 @login_required
 def home(request):
-    return render(request, 'Home.html')
+    user = request.user
+    profile_qs = UserProfile.objects.filter(user=user)
+
+    if profile_qs.exists():               # if it exists → get it
+        profile = profile_qs.first()
+    else:                                 # if not → create one
+        profile = UserProfile.objects.create(user=user)
+
+    if request.method == 'POST':
+        is_adult = request.POST.get('is_adultPlus') == 'on'
+        profile.is_adultPlus = is_adult
+        profile.save()
+    return render(request, 'Home.html', {'profile': profile})

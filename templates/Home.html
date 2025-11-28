@@ -12,10 +12,28 @@
         {% csrf_token %}
         <button type="submit">Logout</button>
     </form>
+ <h2>Welcome, {{ request.user.username }}!</h2>
+
+<h3>Your Profile</h3>
+
+<p><strong>18+ access:</strong> {{ profile.is_adultPlus }}</p>
+<p><strong>Date Joined:</strong> {{ request.user.date_joined }}</p>
+<form method="POST">
+    {% csrf_token %}
+    <label>Allow 18+ Visual Novels:</label>
+    <input type="checkbox" name="is_adultPlus" {% if profile.is_adultPlus %}checked{% endif %}>
+    <button type="submit">Save</button>
+</form>
+
+
 {% if request.session.last_vn_id %}
     <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
         Resume Last Visual Novel
     </a>
 {% endif %}
+<a href="{% url 'index' %}">
+    <button>Go to Homepage</button>
+</a>
+
 </body>
 </html>
