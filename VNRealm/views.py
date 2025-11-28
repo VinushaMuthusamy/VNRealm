@@ -1,7 +1,8 @@
 
 # Create your views here.
 #from django.shortcuts import render, HttpResponse
-
+from django.contrib.auth.models import User
+#from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login#, logout
@@ -24,11 +25,14 @@ def vn_detail(request, dt):
         reviews = vn.reviews.all()
     except VisualNovel.DoesNotExist:
         raise Http404("Visual Novel not found")
+
+    request.session['last_vn_id'] = dt
+
     if request.method == 'POST':
         if not request.user.is_authenticated:
             return redirect('login')
         content = request.POST.get('content')
-        Review.objects.create(vn=vn, content=content)  # no user yet
+        Review.objects.create(vn=vn, content=content, user=request.user )  # no user yet
         return redirect('VN_detailpage', dt=dt)
 
     reviews = vn.reviews.all()
@@ -36,19 +40,42 @@ def vn_detail(request, dt):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        if 'login' in request.POST:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        if user is not None:
-            login(request, user)
-            next_page = request.GET.get('next', 'VN_detailpage')  # after login go back
-            return redirect(next_page)
-        else:
-            return render(request, 'login.html', {'error': 'Invalid credentials.'})
+            if not username or not password:
+                return render(request, "login.html", {"error": "Username and password required"})
+
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                next_page = request.GET.get('next', '/Home')  # after login go back
+                return redirect(next_page)
+            else:
+                return render(request, 'login.html', {'error': 'Invalid credentials.'})
+
+        elif 'signup' in request.POST:  # Signup form submitted
+            username = request.POST.get('signup_username')
+            password1 = request.POST.get('signup_password')
+            password2 = request.POST.get('signup_password2')
+
+            if password1 != password2:
+                  return render(request, 'login.html', {'error': 'Passwords must match.'})
+            # Optionally: validate username/password, check if exists
+            if not User.objects.filter(username=username).exists():
+                user = User.objects.create_user(username=username, password=password1)
+                login(request, user)
+                next_page = request.GET.get('next', '/Home')
+                return redirect(next_page)
+            else:
+                return render(request, 'login.html', {'error': 'Username already exists.'})
 
     return render(request, 'login.html')
 
-#def logout_view(request):
-    logout(request)
-    return redirect('login')
+
+
+
+@login_required
+def home(request):
+    return render(request, 'Home.html')

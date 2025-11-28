@@ -7,17 +7,33 @@
 <body>
 <h2>Login</h2>
 
+<!--if error appears in red-->
 {% if error %}<p style="color:#db3939;">{{ error }}</p>{% endif %}
 
 <form method="POST">
     {% csrf_token %}
+     <input type="hidden" name="login" value="1">
     <input type="text" name="username" placeholder="Username"><br>
     <input type="password" name="password" placeholder="Password"><br>
-    <button type="submit">Login</button>
+    <button type="submit" name="login_submit">Login</button>
+</form>
+<h2>Sign Up</h2>
+<form method="POST">
+    {% csrf_token %}
+      <input type="hidden" name="signup" value="1">
+    <input type="text" name="signup_username" placeholder="Username">
+    <input type="password" name="signup_password" placeholder="Password">
+    <input type="password" name="signup_password2" placeholder="Confirm Password">
+    <button type="submit" name="signup_submit">Sign Up</button>
 </form>
 
 <p style="margin-top: 10px;">
     Don't have an account?
 </p>
+{% if request.session.last_vn_id %}
+    <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
+        Resume Last Visual Novel
+    </a>
+{% endif %}
 </body>
 </html>

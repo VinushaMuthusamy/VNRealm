@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+ <h1>Welcome, {{ request.user.username }}!</h1>
+
+    <!-- Logout Button -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+{% if request.session.last_vn_id %}
+    <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
+        Resume Last Visual Novel
+    </a>
+{% endif %}
+</body>
+</html>

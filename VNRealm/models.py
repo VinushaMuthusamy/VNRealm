@@ -35,11 +35,12 @@ class VisualNovel(models.Model):
     def __str__(self):
        genres = ", ".join([g.name for g in self.genre.all()])
        authors = ", ".join([a.name for a in self.author.all()])
+       available_ons = ", ".join([ab.name for ab in self.available_on.all()])
        return (f"TITLE: {self.title} "
                f"AUTHOR: {authors} "
                f"RELEASE YEAR: ({self.release_year}) "
                f"GENRE: {genres} "
-               f"Available On: {self.available_on}")
+               f"Available On: {available_ons}")
 
 class UserProfile(models.Model):
    # user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -55,4 +56,5 @@ class Review(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-def __str__(self): return f"Review by {self.user} on {self.vn}"
+    def __str__(self):
+        return f"Review by {self.user} on {self.vn}"
