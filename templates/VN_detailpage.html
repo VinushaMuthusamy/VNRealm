@@ -8,24 +8,55 @@
       <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
-    <h1>we here</h1>
+<header class="deets">
+    <h1>VNRealm</h1>
+<div class="nav">
+      <nav>
+  <a href="{% url 'index' %}" class="nav-btn">Indexpage</a>
+           {% if user.is_authenticated %}
+    <a href="{% url 'Home' %}" class="home-btn">Home</a>
+{% endif %}
+</nav>
+</div>
 <h2>{{ vn.title }}</h2>
-<p>Author: {% for author in vn.author.all %}
-                    {{ author.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}</p>
-<p>Release Year: {{ vn.release_year }}</p>
-    <p>GENRE: {% for genre in vn.genre.all %}
-                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}</p>
-    <p>AVAILABLE_ON: {% for available_on in vn.available_on.all %}
-                    {{ available_on.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}</p>
-        {% if vn.cover_image %}
-       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" width="100">
+</header>
+<div class="page">
+     {% if vn.cover_image %}
+       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" width="100" id="frontcover">
        {% else %}
- <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" width="100">
+ <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" width="100" id="frontnoncover">
            {% endif %}
+<ul>
+    <li><strong>Author:</strong> {% for author in vn.author.all %}
+                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+    <li><strong>Release Year:</strong> {{ vn.release_year }}</li>
+    <li><strong>GENRE:</strong> {% for genre in vn.genre.all %}
+                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+    <li><strong>AVAILABLE_ON:</strong> {% for available_on in vn.available_on.all %}
+                    {{ available_on.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+</ul>
+</div>
+<!--if review posted it'll display with username, content and date-->
+<div class="review">
 <h3>Reviews:</h3>
+    {% if reviews %}
+    {% for review in reviews %}
+        <div class="reviewbord">
+            <strong>{{ review.user.username|default:"Anonymous" }}</strong>
+            <p>{{ review.content }}</p>
+            <small>Posted on: {{ review.created_at }}</small>
+        </div>
+        {% if user == review.user %}
+        <a href="{% url 'delete_review' review.id %}" class="delete-btn">Delete</a>
+    {% endif %}
+    {% endfor %}
+{% else %}
+    <p>No reviews yet.</p>
+{% endif %}
+<!--form for posting review, action interrupted by javascript if not authenticated user-->
  <form id="reviewForm" method="POST" action="{% url 'VN_detailpage' dt=vn.id %}"
        data-auth="{% if user.is_authenticated %}True{% else %}False{% endif %}">
     {% csrf_token %}
@@ -34,35 +65,14 @@
         <br>
     <button type ="submit">Submit</button>
 </form>
-    {% if user.is_authenticated %}
-    <a href="{% url 'Home' %}">
-        <button>Home</button>
-    </a>
-{% endif %}
-    {% if reviews %}
-    {% for review in reviews %}
-        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-            <strong>{{ review.user.username|default:"Anonymous" }}</strong>
-            <p>{{ review.content }}</p>
-            <small>Posted on: {{ review.created_at }}</small>
-        </div>
-        {% if user == review.user %}
-        <a href="{% url 'delete_review' review.id %}">Delete</a>
-    {% endif %}
-    {% endfor %}
-{% else %}
-    <p>No reviews yet. Be the first one!</p>
-{% endif %}
-    <a href="{% url 'index' %}">
-    <button>Go to Homepage</button>
-</a>
-
+</div>
+<!--popup window for login/signup redirect or continue session-->
 <div id="authPopup" class="popup">
   <div class="popup-content">
     <h3>You must log in to post a review!</h3>
          <button type = "button" id="loginBtn" class="btn-login"
-                 data-login-url="{% url 'login' %}?next={{ request.path }}" >Login</button>
-        <button id="closePopup">Close</button>
+                 data-login-url="{% url 'login' %}?next={{ request.path }}" >Login/Signup</button>
+        <button id="closePopup">Continue</button>
     </div>
   </div>
 </body>
