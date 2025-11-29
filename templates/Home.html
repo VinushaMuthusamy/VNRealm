@@ -53,12 +53,13 @@
 </form>
 <!--loop over added vns in the played_list-->
 <h3>Your Played List</h3>
-<!--will display when vns are present-->
+<!--will display when vns are present in the list-->
 <ul>
 {% for played in played_vns %}
     <li>
         {{ played.vn.title }} -
         Score:
+        <!--minimum and maximum integer values are set to choose in between from-->
         <form method="POST" style="display:inline;">
             {% csrf_token %}
             <input type="number" name="rating" min="1" max="10" value="{{ played.rating|default_if_none:'' }}">
@@ -66,6 +67,7 @@
             <button type="submit">Update</button>
         </form>
     </li>
+    <!--post request to delete record from list-->
     <form method="POST" style="display:inline;">
     {% csrf_token %}
     <input type="hidden" name="delete_played_id" value="{{ played.id }}">
