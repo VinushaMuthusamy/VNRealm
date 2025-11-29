@@ -255,3 +255,15 @@ textarea {
   resize: vertical;
 }
 
+ .error {
+     color:#db3939;
+     font-weight: bold;
+     font-size: 20px;
+ }
+
+ .account {
+      font-weight: bold;
+     font-size: 20px;
+     margin-bottom: 10px;
+ }
+

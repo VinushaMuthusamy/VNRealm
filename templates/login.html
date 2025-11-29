@@ -8,11 +8,13 @@
         <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
-<h2>Login</h2>
-
+<header>
+<h1>Loginpage</h1>
+</header>
 <!--if error appears in red-->
-{% if error %}<p style="color:#db3939;">{{ error }}</p>{% endif %}
-
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<div class="logingin">
+    <p class="account">Login</p>
 <form method="POST">
     {% csrf_token %}
      <input type="hidden" name="login" value="1">
@@ -20,7 +22,11 @@
     <input type="password" name="password" placeholder="Password"><br>
     <button type="submit" name="login_submit">Login</button>
 </form>
-<h2>Sign Up</h2>
+</div>
+    <p class="account">
+    Don't have an account?
+</p>
+<p class="account">Sign Up</p>
 <form method="POST">
     {% csrf_token %}
       <input type="hidden" name="signup" value="1">
@@ -29,10 +35,6 @@
     <input type="password" name="signup_password2" placeholder="Confirm Password">
     <button type="submit" name="signup_submit">Sign Up</button>
 </form>
-
-<p style="margin-top: 10px;">
-    Don't have an account?
-</p>
 {% if request.session.last_vn_id %}
     <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
         Resume Last Visual Novel
