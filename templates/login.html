@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!--load css-->
     {% load static %}
         <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
 <header>
 <h1>Loginpage</h1>
+<nav class="lognav">
+<!--resume last session-->
+    {% if request.session.last_vn_id %}
+    <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="resume-btn">
+        Resume Last session
+    </a>
+        <a href="{% url 'index' %}" class="idx-btn">Indexpage</a>
+{% endif %}
+</nav>
 </header>
 <!--if error appears in red-->
+<!--invalid credentials, password mismatch, username exists-->
 {% if error %}<p class="error">{{ error }}</p>{% endif %}
 <div class="logingin">
     <p class="account">Login</p>
+    <!--login form enter username password-->
 <form method="POST">
     {% csrf_token %}
      <input type="hidden" name="login" value="1">
@@ -23,10 +35,12 @@
     <button type="submit" name="login_submit">Login</button>
 </form>
 </div>
+<div class="sign">
     <p class="account">
     Don't have an account?
 </p>
 <p class="account">Sign Up</p>
+    <!--sign up from with username, password, confirm password-->
 <form method="POST">
     {% csrf_token %}
       <input type="hidden" name="signup" value="1">
@@ -35,14 +49,6 @@
     <input type="password" name="signup_password2" placeholder="Confirm Password">
     <button type="submit" name="signup_submit">Sign Up</button>
 </form>
-{% if request.session.last_vn_id %}
-    <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
-        Resume Last Visual Novel
-    </a>
-{% endif %}
-<a href="{% url 'index' %}">
-    <button>Indexpage</button>
-</a>
-
+    </div>
 </body>
 </html>

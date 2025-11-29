@@ -267,3 +267,36 @@ textarea {
      margin-bottom: 10px;
  }
 
+.logingin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resume-btn, .idx-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: gainsboro;
+  color: darkslategray;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.resume-btn:hover, .idx-btn:hover {
+  background-color: antiquewhite;
+  color: slategray;
+}
+
+.lognav{
+      display: flex;
+    align-items: flex-start;
+  gap: 20px;
+}
+
+.sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}

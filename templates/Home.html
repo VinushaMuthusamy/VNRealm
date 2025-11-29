@@ -8,6 +8,11 @@
         <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
+{% if request.session.last_vn_id %}
+    <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="resume-btn">
+        Resume Last session
+    </a>
+{% endif %}
  <h1>Welcome, {{ request.user.username }}!</h1>
 
     <!-- Logout Button -->
@@ -63,11 +68,6 @@
     <li>You haven't added any VNs yet.</li>
 {% endfor %}
 </ul>
-{% if request.session.last_vn_id %}
-    <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="btn btn-primary">
-        Resume Last Visual Novel
-    </a>
-{% endif %}
 <a href="{% url 'index' %}">
     <button>Go to Homepage</button>
 </a>

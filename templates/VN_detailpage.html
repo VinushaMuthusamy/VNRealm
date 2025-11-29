@@ -27,9 +27,9 @@
 </header>
 <div class="page">
      {% if vn.cover_image %}
-       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" width="100" id="frontcover">
+       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" id="frontcover">
        {% else %}
- <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" width="100" id="frontnoncover">
+ <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" id="frontnoncover">
            {% endif %}
 <ul>
     <li><strong>Author:</strong> {% for author in vn.author.all %}
