@@ -300,3 +300,7 @@ textarea {
     align-items: center;
     margin-top: 10px;
 }
+
+#pfp {
+    width: 100px;
+}

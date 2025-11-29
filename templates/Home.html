@@ -4,49 +4,56 @@
     <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <!--load css-->
     {% load static %}
         <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
+<header>
+ <h1>UserProfilePage</h1>
+ <!--resume last session-->
 {% if request.session.last_vn_id %}
     <a href="{% url 'VN_detailpage' dt=request.session.last_vn_id %}" class="resume-btn">
         Resume Last session
     </a>
 {% endif %}
- <h1>Welcome, {{ request.user.username }}!</h1>
-
-    <!-- Logout Button -->
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
- <h2>Welcome, {{ request.user.username }}!</h2>
-
+<!--navigate to indexpage-->
+ <a href="{% url 'index' %}">
+    <button>Indexpage</button>
+</a>
+ <h2>{{ request.user.username }}</h2>
+</header>
 <h3>Your Profile</h3>
+<!--form to post profile picture, uploaded to profile_pics folder in media-->
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ profile_form.profile_pic.label_tag }}
     {{ profile_form.profile_pic }}
     <button type="submit">Update</button>
 </form>
-
+<!--if profile pic available it'll be updated-->
 {% if profile.profile_pic %}
-    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" width="150">
+    <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" id="pfp">
 {% endif %}
+<!--status for visibility of adult vns-->
 <p><strong>18+ access:</strong> {{ profile.is_adultPlus }}</p>
 <p><strong>Date Joined:</strong> {{ request.user.date_joined }}</p>
+<!--post request for visibility of adult vns-->
 <form method="POST">
     {% csrf_token %}
     <label>Allow 18+ Visual Novels:</label>
     <input type="checkbox" name="is_adultPlus" {% if profile.is_adultPlus %}checked{% endif %}>
     <button type="submit">Save</button>
+<!--post request to add vns to played_list-->
 </form>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Add to Played List</button>
 </form>
+<!--loop over added vns in the played_list-->
 <h3>Your Played List</h3>
+<!--will display when vns are present-->
 <ul>
 {% for played in played_vns %}
     <li>
@@ -68,9 +75,11 @@
     <li>You haven't added any VNs yet.</li>
 {% endfor %}
 </ul>
-<a href="{% url 'index' %}">
-    <button>Go to Homepage</button>
-</a>
+<!-- Logout Button -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 
 </body>
 </html>
