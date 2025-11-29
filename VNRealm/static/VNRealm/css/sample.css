@@ -1,25 +1,18 @@
 
 
-:root {
-  /* Core colours */
-  /* https://coolors.co/palette/e63946-f1faee-a8dadc-457b9d-1d3557 */
-  --colour-amaranth: #e63946;
-  --colour-peppermint: #f1faee;
-  --colour-aquaisland: #a8dadc;
-  --colour-wedgewood: #457b9d;
-  --colour-cello: #FFF38B;
-
-  /* Header configuration */
-  --header-heading-colour: var(--colour-peppermint);
-
-  /* Body configuration */
-  --body-default-colour: var(--colour-peppermint);
-  --body-background-colour: var(--colour-cello);
+#cover {
+ width: 200px
+}
+.container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
 }
 
-/*
-  PAGE / BODY
-*//*
+#noncover {
+    width: 200px
+}
+
 table {
   border-collapse: collapse;
   width: 60%;
@@ -41,79 +34,41 @@ tbody td {
   padding: 8px;
   border-bottom: 1px solid #ccc;
 }
-*/
-
-main{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: red;
-    text-shadow:
-        2px 2px 4px navy,        /*outline color*/
-        -2px -2px 4px navy,
-        2px -2px 4px navy,
-        -2px 2px 4px navy;
-}
-main p{
-  margin-top: auto;
-  font-size: 25px;
-  color: red;
-  line-height: 1.5;
-  align-self: center;
-  margin-right: 100px;
-}
 
 
-/*
-  Screen reader text utility ass
-*/
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-  .header h1 {
-    display: flex;
-    justify-content: center;
-    color: yellow;
-    text-shadow:
-        2px 2px 4px navy,        /*outline color*/
-        -2px -2px 4px navy,
-        2px -2px 4px navy,
-        -2px 2px 4px navy;
+
+  header {
+       background-color: antiquewhite;
   }
 
 
-footer h4 {
-  margin: 0;
-  font-size: 18px;
-}
-/*
+  header h1 {
+    display: flex;
+    justify-content: center;
+      background-color: slategrey;
+      padding: 20px;
+ }
+
+  header h2 {
+      display: flex;
+    justify-content: center;
+  }
+
+
 body {
-  background-color: grey;
+  background-color: slategrey;
   background-size: cover;
   background-position: center;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+  margin: 1px;
+  padding: 1px;
   display: flex;
-  position: relative; //This ensures positioning is relative to body
+  position: relative;
     font-family: Arial, Helvetica, sans-serif;
-  color: darksalmon;
     flex-direction: column;
   justify-content: left;
   min-height: 100vh;
-  overflow: hidden;
 }
-*/
+
 
 .popup {
     display: none;
@@ -132,5 +87,13 @@ body {
     border-radius: 10px;
 }
 
+#titlelink {
+    color: black;
+    text-decoration-line: none;
+    font-weight: bold;
+}
 
-
+#titlelink:hover {
+    color: gainsboro;
+  text-decoration: none;
+}

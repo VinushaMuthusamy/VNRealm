@@ -3,17 +3,24 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNRealmPage</title>
         <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
+<header>
 <h1>VNRealm</h1>
-<h2>List of records in VNRealm</h2>
+<h2>Visual Novels list</h2>
+</header>
+<!-- loop vn records-->
    {% for vn in records %}
+       <div class="container">
+       <!--if cover image exists display it-->
         {% if vn.cover_image %}
-       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" width="100">
+       <img src="{{ vn.cover_image.url }}" alt="{{ vn.title }}" id="cover">
        {% else %}
- <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" width="100">
+            <!--if not display default image-->
+ <img src="{% static 'VNRealm/images/noneicon.jpeg' %}" alt="{{ vn.title }}" id="noncover">
            {% endif %}
           <table>
       <thead>
@@ -25,7 +32,7 @@
       <tbody>
       <tr>
       <td>TITLE:</td>
-          <td><a href="{% url 'VN_detailpage' vn.id %}">{{ vn.title }}</a></td>
+          <td><a id="titlelink" href="{% url 'VN_detailpage' vn.id %}">{{ vn.title }}</a></td>
       </tr>
       <tr>
         <td>AUTHOR:</td>
@@ -52,6 +59,7 @@
         </tr>
       </tbody>
       </table>
+       </div>
    {% empty %}
      <li>No visual novels found.</li>
      {% endfor %}
