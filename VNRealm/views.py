@@ -129,6 +129,8 @@ def home(request):
         profile.save()
 
 #profile picture upload through forms
+    #request.Files , template used from django documentation
+    #cite: https://docs.djangoproject.com/en/5.2/topics/http/file-uploads/
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if profile_form.is_valid():
