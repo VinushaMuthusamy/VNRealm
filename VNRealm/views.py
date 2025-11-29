@@ -181,7 +181,7 @@ def delete_review(request, review_id):
     try:
         review = Review.objects.get(id=review_id, user=request.user)  # only allow owner
         review.delete()
-        #exception handlingg
+        #exception handling
     except Review.DoesNotExist:
         pass
     return redirect('VN_detailpage', dt=review.vn.id)

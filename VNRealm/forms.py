@@ -3,6 +3,8 @@ from django import forms
 from .models import PlayedList, VisualNovel
 from .models import UserProfile
 
+#form for played_list
+#default dropdownlabel set and all vns included in the set
 class PlayedListForm(forms.ModelForm):
     vn = forms.ModelChoiceField(
         queryset=VisualNovel.objects.all(),
@@ -16,7 +18,7 @@ class PlayedListForm(forms.ModelForm):
         fields = ['vn']
 
 
-
+#form for profile picture uploading
 class UserProfileForm(forms.ModelForm):
     #metadata definition
     class Meta:
