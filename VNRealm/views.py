@@ -139,6 +139,7 @@ def home(request):
         profile_form = UserProfileForm(instance=profile)
 
 #play list made by selecting vns and saved through forms
+    #django template forms used for listing
     if request.method == 'POST':
         form = PlayedListForm(request.POST)
         if form.is_valid():
