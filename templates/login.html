@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
 <h2>Login</h2>
@@ -36,7 +39,7 @@
     </a>
 {% endif %}
 <a href="{% url 'index' %}">
-    <button>Go to Homepage</button>
+    <button>Indexpage</button>
 </a>
 
 </body>

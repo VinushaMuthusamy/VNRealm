@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'VNRealm/css/sample.css' %}">
 </head>
 <body>
  <h1>Welcome, {{ request.user.username }}!</h1>
@@ -19,7 +22,7 @@
     {% csrf_token %}
     {{ profile_form.profile_pic.label_tag }}
     {{ profile_form.profile_pic }}
-    <button type="submit">Upload</button>
+    <button type="submit">Update</button>
 </form>
 
 {% if profile.profile_pic %}
