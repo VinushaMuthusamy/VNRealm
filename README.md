@@ -4,6 +4,26 @@ Setting things up:
 
 -clone repository
 
+-Open the project in your preferred IDE
+
+virtual configurations:
+
+-Install any dependencies
+
+pip install -r requirements.txt
+
+copy the given env example file and rename it as env, then give it a secret key of your own
+-then run this command
+	
+# Linux / Mac
+python3 -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+
 run migrations:
  -python manage.py migrate
 
@@ -39,5 +59,4 @@ A website that displays Visual Novel records with their respective attributes. A
 -In the VN_detail page that comes after clicking the visual novel title on the main page, reviews done by other users are visible with the username and the date posted. The current user, after submitting their review, is able to erase their own review by clicking delete.
 
 -Current user can logout from the home page.
-
 
