@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 #login requirement and authentication
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-#responses
 from django.shortcuts import render, redirect
 
 #forms from forms.py for played list for user and profile pic form
@@ -37,11 +36,9 @@ def index(request):
 #VN_detailpage html view
 def vn_detail(request, dt):
     #visual novel displayed depending on selected id which is activated
-    #after clicking the vn title
     try:
         vn = VisualNovel.objects.get(id=dt)
         reviews = vn.reviews.all()
-        #exception handling
     except VisualNovel.DoesNotExist:
         raise Http404("Visual Novel not found")
 
@@ -81,8 +78,11 @@ def login_view(request):
                 login(request, user)
                 # after login go back
                 next_page = request.GET.get('next', '/Home')
-                return redirect(next_page)
-            #invalid username/password
+                if "/" == next_page[0]:
+                    return redirect(next_page)
+                else:
+                    return render(request, 'login.html')
+
             else:
                 return render(request, 'login.html', {'error': 'Invalid username/password'})
 
@@ -103,7 +103,6 @@ def login_view(request):
                 next_page = request.GET.get('next', '/Home')
                 return redirect(next_page)
             else:
-            #adding existing username error, to avoid duplication
                 return render(request, 'login.html', {'error': 'Username already exists.'})
 
     return render(request, 'login.html')
@@ -147,7 +146,6 @@ def home(request):
             #set it to current user
             played_item.user = user
             played_item.save()
-    #display list
     else:
         form = PlayedListForm()
 
@@ -184,7 +182,6 @@ def delete_review(request, review_id):
     try:
         review = Review.objects.get(id=review_id, user=request.user)  # only allow owner
         review.delete()
-        #exception handling
     except Review.DoesNotExist:
         pass
     return redirect('VN_detailpage', dt=review.vn.id)
