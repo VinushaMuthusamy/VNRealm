@@ -27,13 +27,13 @@ venv\Scripts\activate
 run migrations:
  -python manage.py migrate
 
-Create a superuser ,needed to access the admin site:
+(optional)Create a superuser ,needed to access the admin site:
     python manage.py createsuperuser
-
 -vn records can be loaded
+
 After running migrations, load this in terminal:
 
-    python manage.py loaddata all_data.json
+    python manage.py loaddata VNRealm_fixture.json
 
 
 -apply command in terminal --> python manage.py runserver
